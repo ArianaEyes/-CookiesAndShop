@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">CookiesAndShop</string>
+    <string name="title_activity_info_postre">InfoPostreActivity</string>
+    <string name="title_activity_delivery">DeliveryActivity</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_cuenta_config">CuentaConfigActivity</string>
+    <string name="title_activity_mostrar">MostrarActivity</string>
+
+</resources>
