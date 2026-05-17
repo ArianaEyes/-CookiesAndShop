@@ -2,6 +2,7 @@ package com.ariana.cookiesandshop
 
 import android.content.Intent
 import android.os.Bundle
+import coil.compose.AsyncImage
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge

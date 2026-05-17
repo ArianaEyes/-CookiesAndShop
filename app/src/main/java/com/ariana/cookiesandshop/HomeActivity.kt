@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import coil.compose.AsyncImage
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -252,7 +253,9 @@ class HomeActivity : ComponentActivity() {
                                                             RoundedCornerShape(20.dp)
                                                         )
                                                         .size(width = 120.dp, height = 140.dp),
-                                                    contentScale = ContentScale.Crop
+                                                    contentScale = ContentScale.Crop,
+                                                     placeholder = painterResource(R.drawable.nofoto),
+                                                    error= painterResource(R.drawable.nofoto)
                                                 )
                                                 Text(
                                                     postre.nom_postre,
