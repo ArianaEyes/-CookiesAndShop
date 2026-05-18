@@ -127,7 +127,7 @@ class MostrarLista : ComponentActivity() {
                                         .fillMaxSize()
                                         .padding(16.dp)
                                 ) {
-                                    items(state.postre, key = { it.id_postre }) { itemPostres ->
+                                    items(state.postres, key = { it.id_postre }) { itemPostres ->
                                         FilaPostres(itemPostres)
                                     }
                                 }
