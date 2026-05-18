@@ -18,30 +18,35 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import com.ariana.cookiesandshop.ui.theme.azulClaro
 import com.ariana.cookiesandshop.ui.theme.azulFondo
+import com.ariana.cookiesandshop.ui.theme.azulOscuro
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTopAppBar(titulo: String) {
     val context = LocalContext.current
     TopAppBar(
-        title = {Text(titulo)},
+        title = {Text(titulo, color = Color.White, modifier = Modifier.padding(start = 10.dp))},
         navigationIcon = {
 
             Surface(onClick = { (context as? ComponentActivity)?.finish() },
                 shape = CircleShape,
-                color = azulFondo.copy(0.3f),
+                color = azulClaro.copy(1f),
                 modifier = Modifier.padding(start = 16.dp)
+
             ){
                 Box(Modifier.size(40.dp), contentAlignment = Alignment.Center){
-                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null, tint = azulFondo)
+                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null, tint = azulOscuro)
                 }
             }
 
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = azulFondo.copy(0.1f))
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = azulFondo.copy(1f))
     )
 }

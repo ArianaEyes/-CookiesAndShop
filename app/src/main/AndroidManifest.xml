@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CookiesAndShop">
         <activity
-            android:name=".pages.MostrarActivity"
+            android:name=".pages.MostrarLista.MostrarLista"
             android:exported="false"
             android:label="@string/title_activity_mostrar"
             android:theme="@style/Theme.CookiesAndShop" />
@@ -24,7 +24,7 @@
             android:label="@string/title_activity_cuenta_config"
             android:theme="@style/Theme.CookiesAndShop" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".pages.Home.HomeActivity"
             android:exported="false"
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.CookiesAndShop" />
@@ -34,7 +34,7 @@
             android:label="@string/title_activity_delivery"
             android:theme="@style/Theme.CookiesAndShop" />
         <activity
-            android:name=".InfoPostreActivity"
+            android:name=".pages.Detalles.DetallesPostreActivity"
             android:exported="false"
             android:label="@string/title_activity_info_postre"
             android:theme="@style/Theme.CookiesAndShop" />

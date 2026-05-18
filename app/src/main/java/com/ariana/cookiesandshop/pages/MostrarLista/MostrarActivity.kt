@@ -1,4 +1,4 @@
-package com.ariana.cookiesandshop.pages
+package com.ariana.cookiesandshop.pages.MostrarLista
 
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -13,7 +13,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,7 +29,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,18 +45,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ariana.cookiesandshop.HomeActivity
-import com.ariana.cookiesandshop.PostresService
+import com.ariana.cookiesandshop.pages.Home.HomeActivity
+import com.ariana.cookiesandshop.pages.Home.PostresService
 import com.ariana.cookiesandshop.R
 import com.ariana.cookiesandshop.models.Postres
 import com.ariana.cookiesandshop.pages.ui.theme.CookiesAndShopTheme
 import com.ariana.cookiesandshop.ui.theme.azulFondo
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
 
 
 class MostrarActivity : ComponentActivity() {
@@ -140,7 +136,7 @@ class MostrarActivity : ComponentActivity() {
     }
 }
 @Composable
-fun FilaPostres(iPostres: Postres) {
+fun Fila(iPostres: Postres) {
     val context = LocalContext.current
 
     Card(

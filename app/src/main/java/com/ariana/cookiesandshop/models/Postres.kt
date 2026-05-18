@@ -10,5 +10,6 @@ data class Postres(
     val precio: Double,
     val disponible: Int,
     val stock: Int,
-    val imagen: String
+    val imagen: String,
+    val descripcion: String
 )

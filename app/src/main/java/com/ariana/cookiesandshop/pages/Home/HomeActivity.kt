@@ -1,4 +1,4 @@
-package com.ariana.cookiesandshop
+package com.ariana.cookiesandshop.pages.Home
 
 import android.content.Intent
 import android.os.Bundle
@@ -51,8 +51,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.request.ImageRequest
+import com.ariana.cookiesandshop.BarraIcon
+import com.ariana.cookiesandshop.DeliveryActivity
+import com.ariana.cookiesandshop.R
 import com.ariana.cookiesandshop.models.Postres
-import com.ariana.cookiesandshop.pages.MostrarActivity
+import com.ariana.cookiesandshop.pages.MostrarLista.MostrarActivity
+import com.ariana.cookiesandshop.pages.MostrarLista.MostrarLista
 import com.ariana.cookiesandshop.ui.theme.CookiesAndShopTheme
 import com.ariana.cookiesandshop.ui.theme.azulClaro
 import com.ariana.cookiesandshop.ui.theme.azulFondo
@@ -61,6 +65,7 @@ import com.ariana.cookiesandshop.ui.theme.fondoColor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import kotlin.jvm.java
 
 interface PostresService {
     @GET("postres.php")
@@ -185,7 +190,7 @@ class HomeActivity : ComponentActivity() {
                                         Text("Obtén ya tu plato", color = Color.White)
                                         Text("Personaliza tus sabores", color = Color.White)
                                         Button(
-                                            onClick = {val intent = Intent(context, MostrarActivity::class.java)
+                                            onClick = {val intent = Intent(context, MostrarLista::class.java)
                                                 startActivity(intent)}, colors = ButtonDefaults.buttonColors(
                                                 containerColor = Color.White
                                             ),
@@ -311,7 +316,7 @@ class HomeActivity : ComponentActivity() {
                                                             modifier = Modifier
                                                                 .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
                                                                 .size(width = 170.dp, height = 140.dp),
-                                                            contentScale = ContentScale.Crop
+                                                            contentScale = ContentScale.Crop,
                                                         )
                                                         Box(
                                                             Modifier
