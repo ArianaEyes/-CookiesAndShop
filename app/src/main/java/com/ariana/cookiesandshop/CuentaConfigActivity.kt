@@ -65,6 +65,7 @@ import com.ariana.cookiesandshop.ui.theme.CookiesAndShopTheme
 import com.ariana.cookiesandshop.ui.theme.azulFondo
 import com.ariana.cookiesandshop.ui.theme.fondoColor
 import com.ariana.cookiesandshop.ui.theme.grisclaro
+import com.ariana.cookiesandshop.components.BarraIcon
 
 class CuentaConfigActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -58,6 +58,7 @@ import com.ariana.cookiesandshop.pages.Home.HomeActivity
 import com.ariana.cookiesandshop.pages.Home.PostresService
 import com.ariana.cookiesandshop.R
 import com.ariana.cookiesandshop.models.Postres
+import com.ariana.cookiesandshop.pages.Detalles.DetallesPostreActivity
 import com.ariana.cookiesandshop.pages.ui.theme.CookiesAndShopTheme
 import com.ariana.cookiesandshop.ui.theme.azulClaro
 import com.ariana.cookiesandshop.ui.theme.azulFondo
@@ -70,44 +71,26 @@ class MostrarLista : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val viewModel = ViewModelProvider(this)[ListaViewModel::class.java]
-
-        val api = Retrofit.Builder()
-            .baseUrl("https://wyper.alwaysdata.net/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(PostresService::class.java)
+        viewModel.fetchLista()
         enableEdgeToEdge()
         setContent {
             CookiesAndShopTheme {
 
                 val uiState by viewModel.uiState.collectAsState()
 
+
                 Scaffold(
                     containerColor = Color.Transparent,
                     topBar = { MyTopAppBar("Volver") }) { innerPadding ->
 
-                    var cargando by remember { mutableStateOf(true) }
-                    var postres by remember { mutableStateOf<List<Postres>>(emptyList()) }
-
-                    LaunchedEffect(key1 = Unit) {
-                        try {
-                            postres = api.getPostres()
-                            Log.d("POSTRES_SIZE", "Total: ${postres.size}")
-                            postres.forEach {
-                                Log.d("IMAGEN_URL", it.imagen ?: "NULL")
-                            }
-                        } catch (e: Exception) {
-                            Log.e("ERROR_API", e.message.toString())
-                        } finally {
-                            cargando = false
-                        }
-                    }
-
                     Box(
                         Modifier.padding(innerPadding)
+                            .fillMaxSize()
                             .background(azulFondo.copy(.8f))
                     ) {
+
                         when (val state = uiState) {
+
                             is ListaUIState.Loading -> {
                                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                             }
@@ -126,9 +109,14 @@ class MostrarLista : ComponentActivity() {
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .padding(16.dp)
+
                                 ) {
                                     items(state.postres, key = { it.id_postre }) { itemPostres ->
-                                        FilaPostres(itemPostres)
+                                        Column(Modifier
+                                            .clickable { seleccionarPostre(itemPostres.id_postre) }){
+                                            FilaPostres(itemPostres)
+                                        }
+
                                     }
                                 }
                             }
@@ -139,18 +127,12 @@ class MostrarLista : ComponentActivity() {
         }
     }
 
-        private fun seleccionarPostre(itemPostres: Postres) {
-            Toast.makeText(
-                this@MostrarLista, itemPostres.nom_postre,
-                Toast.LENGTH_SHORT
-            ).show()
-            val intent = Intent(this, MostrarLista::class.java)
-            val bundle = Bundle().apply {
-                putInt("Tipo", itemPostres.id_tipo)
-                putString("nombre", itemPostres.nom_postre)
-                putString("descripcion", itemPostres.descripcion)
-            }
-            intent.putExtras(bundle)
-            startActivity(intent)
+    fun seleccionarPostre(id_postre: Int) {
+        val intent = Intent(this, DetallesPostreActivity::class.java)
+        val bundle = Bundle().apply {
+            putInt("id_postre", id_postre)
         }
+        intent.putExtras(bundle)
+        startActivity(intent)
+    }
 }

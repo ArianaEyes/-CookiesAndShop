@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.ariana.cookiesandshop.R
 import com.ariana.cookiesandshop.models.Postres
 import com.ariana.cookiesandshop.models.TipoPostre
 import com.ariana.cookiesandshop.ui.theme.azulFondo
@@ -39,7 +41,7 @@ fun FilaPostres(iPostres: Postres) {
 
     Card(
         modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding( vertical = 8.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -62,7 +64,9 @@ fun FilaPostres(iPostres: Postres) {
                 modifier = Modifier
                     .size(90.dp)
                     .clip(RoundedCornerShape(15.dp)),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                placeholder = painterResource(R.drawable.nofoto),
+                error= painterResource(R.drawable.nofoto)
             )
 
             // Info

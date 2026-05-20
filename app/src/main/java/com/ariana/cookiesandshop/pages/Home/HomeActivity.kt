@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -51,11 +52,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.request.ImageRequest
-import com.ariana.cookiesandshop.BarraIcon
 import com.ariana.cookiesandshop.DeliveryActivity
 import com.ariana.cookiesandshop.R
+import com.ariana.cookiesandshop.components.BarraIcon
 import com.ariana.cookiesandshop.models.Postres
-import com.ariana.cookiesandshop.pages.MostrarLista.MostrarActivity
+import com.ariana.cookiesandshop.pages.Detalles.DetallesPostreActivity
 import com.ariana.cookiesandshop.pages.MostrarLista.MostrarLista
 import com.ariana.cookiesandshop.ui.theme.CookiesAndShopTheme
 import com.ariana.cookiesandshop.ui.theme.azulClaro
@@ -84,6 +85,8 @@ class HomeActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CookiesAndShopTheme {
+                var isVisible by remember {mutableStateOf(true)}
+
                 Scaffold(containerColor = Color.Transparent,bottomBar = { BarraIcon(selectedItem = 0) }) { innerPadding ->
                     var postres by remember { mutableStateOf<List<Postres>>(emptyList()) }
                     val context = LocalContext.current
@@ -235,7 +238,7 @@ class HomeActivity : ComponentActivity() {
                                         .clipToBounds(),
                                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                                 ) {
-                                    postres.chunked(2).forEach { par ->
+                                    postres.take(8).chunked(2).forEach { par ->
                                         par.forEach { postre ->
                                             Box() {
                                                 AsyncImage(
@@ -283,7 +286,7 @@ class HomeActivity : ComponentActivity() {
 
                                 // AQUÍ EMPIEZA LA SECCIÓN DE POSTRES
                                 Column(
-                                    Modifier.padding(top = 20.dp),
+                                    Modifier.padding(top = 20.dp, start = 5.dp, end =5.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     verticalArrangement = Arrangement.spacedBy(20.dp)
                                 ) {
@@ -301,9 +304,10 @@ class HomeActivity : ComponentActivity() {
                                             par.forEach { postre ->
                                                 Column(
                                                     Modifier
-                                                        .width(170.dp)
+                                                        .width(160.dp)
                                                         .height(260.dp)
-                                                        .background(Color.White, shape = RoundedCornerShape(20.dp)),
+                                                        .background(Color.White, shape = RoundedCornerShape(20.dp))
+                                                    ,
                                                     horizontalAlignment = Alignment.CenterHorizontally
                                                 ) {
                                                     Box {
@@ -315,8 +319,15 @@ class HomeActivity : ComponentActivity() {
                                                             contentDescription = null,
                                                             modifier = Modifier
                                                                 .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
-                                                                .size(width = 170.dp, height = 140.dp),
+                                                                .size(width = 170.dp, height = 140.dp)
+                                                                .clickable { // 👈 agrega esto
+                                                                    val intent = Intent(context, DetallesPostreActivity::class.java)
+                                                                    intent.putExtra("id_postre", postre.id_postre)
+                                                                    context.startActivity(intent)
+                                                                },
                                                             contentScale = ContentScale.Crop,
+                                                            placeholder = painterResource(R.drawable.nofoto),
+                                                            error= painterResource(R.drawable.nofoto)
                                                         )
                                                         Box(
                                                             Modifier
@@ -346,7 +357,11 @@ class HomeActivity : ComponentActivity() {
                                                     )
                                                     Row {
                                                         Button(
-                                                            onClick = {},
+                                                            onClick = {
+                                                                val intent = Intent(context, DetallesPostreActivity::class.java)
+                                                                intent.putExtra("id_postre", postre.id_postre)
+                                                                context.startActivity(intent)
+                                                            },
                                                             colors = ButtonDefaults.buttonColors(containerColor = azulClaro),
                                                             modifier = Modifier.width(120.dp).height(35.dp).padding(top = 8.dp),
                                                             contentPadding = PaddingValues(0.dp)

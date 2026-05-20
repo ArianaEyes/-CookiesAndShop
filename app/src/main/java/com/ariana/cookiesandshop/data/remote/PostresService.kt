@@ -7,10 +7,7 @@ import retrofit2.http.Query
 interface PostresService {
 
     @GET("postres.php")
-    suspend fun getPostres(): List<Postres>
+    suspend fun getPostres(
+    @Query("id_postre") id_postre: Int? = null): List<Postres>
 
-    @GET("postres.php")
-    suspend fun getPostreDetalle(
-        @Query("id_postre") id_tipo: Int
-    ): List<Postres>
 }

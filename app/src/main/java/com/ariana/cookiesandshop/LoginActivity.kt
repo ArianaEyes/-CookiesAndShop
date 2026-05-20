@@ -1,15 +1,21 @@
 package com.ariana.cookiesandshop
 
 
-
-import android.content.Intent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandIn
+import androidx.compose.animation.shrinkOut
 import androidx.compose.ui.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,20 +32,22 @@ import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -48,11 +56,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.data.UiToolingDataApi
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ariana.cookiesandshop.pages.Detalles.DetallesPostreActivity
-import com.ariana.cookiesandshop.pages.Home.HomeActivity
 import com.ariana.cookiesandshop.ui.theme.CookiesAndShopTheme
 import com.ariana.cookiesandshop.ui.theme.fondoColor
 import com.ariana.cookiesandshop.ui.theme.grisclaro
+import com.ariana.cookiesandshop.components.BarraIcon
 
 class LoginActivity : ComponentActivity() {
     @OptIn(UiToolingDataApi::class)
@@ -61,6 +68,14 @@ class LoginActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CookiesAndShopTheme {
+                var pulse by remember { mutableStateOf(false) }
+                val scope = rememberCoroutineScope()
+
+                val scale by animateFloatAsState(
+                    targetValue = if (pulse) 2f else 1f,
+                    animationSpec = tween(100,easing = FastOutSlowInEasing),
+                    label = ""
+                )
                 Scaffold(containerColor = Color.Transparent,bottomBar = {BarraIcon(selectedItem = 1)}) {
                         innerPadding ->
                     Box(modifier= Modifier
@@ -86,19 +101,44 @@ class LoginActivity : ComponentActivity() {
                                         .clip(RoundedCornerShape(5.dp))
                                         .size(width = 140.dp, height = 140.dp), contentScale = ContentScale.Crop
                                 )
-                                Box(Modifier
-                                    .padding(start = 110.dp, top = 110.dp)
-                                    .size(40.dp)
-                                    .clip(RoundedCornerShape(50.dp))
-                                    .background(Color.White)
-                                    .align(Alignment.BottomEnd)
-                                ){
-                                    Icon(painterResource(R.drawable.edit_24dp_000000),
+                                Box(
+                                    Modifier
+                                        .padding(start = 110.dp, top = 110.dp)
+                                        .size(40.dp)
+                                        .graphicsLayer {
+                                            scaleX = scale
+                                            scaleY = scale
+                                        }
+                                        .clip(RoundedCornerShape(50.dp))
+                                        .background(Color.White)
+                                        .align(Alignment.BottomEnd)
+                                        .clickable {
+                                            scope.launch {
+                                                pulse = true
+                                                delay(500)
+                                                pulse = false
+                                            }
+                                        }
+                                ) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.edit_24dp_000000),
                                         contentDescription = null,
-                                        Modifier.align(Alignment.Center))
+                                        modifier = Modifier.align(Alignment.Center)
+                                    )
                                 }
+
                             }
 
+//androidx.compose.animation.AnimatedVisibility(
+//                                        visible = pencilVisible,
+//                                        enter = expandIn(),
+//                                        exit = shrinkOut()
+//                                    ) {
+//                                        Icon(
+//                                            painter = painterResource(R.drawable.edit_24dp_000000),
+//                                            contentDescription = null
+//                                        )
+//                                    }
                             // TITULO NOMBRE
 
                             Text("BIENVENIDO USUARIO9378131!!", Modifier
@@ -175,7 +215,8 @@ fun Casilla(
         onValueChange = onValueChange,
         Modifier
             .padding(top = 10.dp)
-            .width(360.dp),
+            .width(320.dp),
+
 
         placeholder = placeholder,
         leadingIcon = leadingIcon,
@@ -195,62 +236,3 @@ fun Casilla(
     )
 }
 
-@Composable
-fun BarraIcon(selectedItem: Int) {
-    val context = LocalContext.current
-
-    NavigationBar(
-        containerColor = Color.Transparent,
-        tonalElevation = 0.dp
-    ) {
-
-
-        //LOGIN
-        NavigationBarItem(
-            selected = selectedItem == 1,
-            onClick = {
-                context.startActivity(Intent(context, LoginActivity::class.java))
-            },
-            icon = {
-                Icon(
-                    painterResource(R.drawable.account_circle_24dp_000000_fill0_wght400_grad0_opsz24),
-                    null
-                )
-            }
-        )
-
-        //HOME
-        NavigationBarItem(
-            selected = selectedItem == 0,
-            onClick = {
-                context.startActivity(Intent(context, HomeActivity::class.java))
-            },
-            icon = { Icon(Icons.Default.Home, null) }
-        )
-
-        NavigationBarItem(
-            selected = selectedItem == 2,
-            onClick = {
-                context.startActivity(Intent(context, DetallesPostreActivity::class.java))
-            },
-            icon = {
-                Icon(
-                    painterResource(R.drawable.cookie_24dp_000000_fill0_wght400_grad0_opsz24),
-                    null
-                )
-            }
-        )
-
-        NavigationBarItem(
-            selected = selectedItem == 3,
-            onClick = {
-                context.startActivity(Intent(context, CuentaConfigActivity::class.java))
-            },
-            icon = {
-                Icon(
-                    painterResource(R.drawable.settings_24dp_000000_fill0_wght400_grad0_opsz24),
-                    null)
-            }
-        )
-    }
-}

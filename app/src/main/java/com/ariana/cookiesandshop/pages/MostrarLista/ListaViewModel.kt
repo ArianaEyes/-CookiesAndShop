@@ -19,7 +19,7 @@ class ListaViewModel: ViewModel() {
             _uiState.value = ListaUIState.Loading
             try{
                 val respuesta = RetrofitClient.postresService.getPostres()
-                _uiState.value = ListaUIState.Success(respuesta[0])
+                _uiState.value = ListaUIState.Success(respuesta)
             } catch (e: Exception) {
                 _uiState.value = ListaUIState.Error(
                     "Error al cargar datos: ${e.localizedMessage}"

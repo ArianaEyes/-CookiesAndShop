@@ -14,6 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CookiesAndShop">
         <activity
+            android:name=".pages.Error.ErrorActivity"
+            android:exported="false"
+            android:label="@string/title_activity_error"
+            android:theme="@style/Theme.CookiesAndShop" />
+        <activity
             android:name=".pages.MostrarLista.MostrarLista"
             android:exported="false"
             android:label="@string/title_activity_mostrar"

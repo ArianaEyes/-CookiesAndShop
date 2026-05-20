@@ -14,10 +14,11 @@ class DetallesViewModel: ViewModel() {
     val uiState: StateFlow<PostreDetalleUIState> = _uiState.asStateFlow()
 
     fun fetchPostre(id_postre: Int) {
+        _uiState.value = PostreDetalleUIState.Loading // 👈 confirma que esto esté
         viewModelScope.launch {
             _uiState.value = PostreDetalleUIState.Loading
-            try{
-                val respuesta = RetrofitClient.postresService.getPostreDetalle(id_postre)
+            try {
+                val respuesta = RetrofitClient.postresService.getPostres(id_postre)
                 _uiState.value = PostreDetalleUIState.Success(respuesta[0])
             } catch (e: Exception) {
                 _uiState.value = PostreDetalleUIState.Error(
