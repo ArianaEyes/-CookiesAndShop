@@ -17,4 +17,8 @@ object RetrofitClient {
         retrofit.create(PostresService::class.java)
     }
 
+    val loginService: LoginService by lazy {
+        retrofit.create(LoginService::class.java)
+    }
+
 }

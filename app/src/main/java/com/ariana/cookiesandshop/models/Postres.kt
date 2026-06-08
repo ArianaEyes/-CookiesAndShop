@@ -11,5 +11,10 @@ data class Postres(
     val disponible: Int,
     val stock: Int,
     val imagen: String,
-    val descripcion: String
+    val descripcion: String,
+    var calorias: Int,
+)
+data class PostreResponse(
+    val message: String,
+    val id_postre: Int
 )

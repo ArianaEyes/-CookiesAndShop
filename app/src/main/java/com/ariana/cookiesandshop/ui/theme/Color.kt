@@ -18,6 +18,7 @@ val chocolate = Color(0XFFDE9E57)
 
 val grisclaro = Color(0XFFBABFCC)
 val grisclaraso = Color(0xFFE0E1E8)
+val gris = Color(0xFF3D3D44)
 
 val azulOscuro = Color(0xFF1E2AA9)
 

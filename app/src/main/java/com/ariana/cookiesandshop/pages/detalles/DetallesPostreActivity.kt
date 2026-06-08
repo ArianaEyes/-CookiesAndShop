@@ -1,4 +1,4 @@
-package com.ariana.cookiesandshop.pages.Detalles
+package com.ariana.cookiesandshop.pages.detalles
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -28,12 +28,12 @@ class DetallesPostreActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[DetallesViewModel::class.java] // 👈 sin "val"
+        viewModel = ViewModelProvider(this)[DetallesViewModel::class.java]
         val id_postre = intent.getIntExtra("id_postre", -1)
         if (id_postre == -1) { finish(); return }
         android.util.Log.d("DETALLES", "id recibido: $id_postre")
 
-        viewModel.fetchPostre(id_postre)
+        viewModel.fetchPostrePorId(id_postre)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         enableEdgeToEdge()
         setContent {
@@ -51,7 +51,7 @@ class DetallesPostreActivity : ComponentActivity() {
                                 is PostreDetalleUIState.Error -> {
                                     Column(modifier = Modifier.align(Alignment.Center)) {
                                         Text(state.message, color = MaterialTheme.colorScheme.error)
-                                        Button(onClick = { viewModel.fetchPostre(id_postre) }) {
+                                        Button(onClick = { viewModel.fetchPostrePorId(id_postre) }) {
                                             Text("Reintentar")
                                         }
                                     }
@@ -67,11 +67,15 @@ class DetallesPostreActivity : ComponentActivity() {
         }
     }
 
-    override fun onNewIntent(intent: android.content.Intent) { // 👈 agrega esto
+    override fun onNewIntent(intent: android.content.Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
+        overridePendingTransition(
+            android.R.anim.fade_in,
+            android.R.anim.fade_out
+        )
         val id_postre = intent.getIntExtra("id_postre", -1)
         android.util.Log.d("DETALLES", "onNewIntent id: $id_postre")
-        if (id_postre != -1) viewModel.fetchPostre(id_postre)
+        if (id_postre != -1) viewModel.fetchPostrePorId(id_postre)
     }
 }

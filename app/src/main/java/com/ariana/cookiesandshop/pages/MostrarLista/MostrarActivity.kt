@@ -47,8 +47,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ariana.cookiesandshop.pages.Home.HomeActivity
-import com.ariana.cookiesandshop.pages.Home.PostresService
+import com.ariana.cookiesandshop.pages.home.HomeActivity
+import com.ariana.cookiesandshop.pages.home.PostresService
 import com.ariana.cookiesandshop.R
 import com.ariana.cookiesandshop.models.Postres
 import com.ariana.cookiesandshop.pages.ui.theme.CookiesAndShopTheme

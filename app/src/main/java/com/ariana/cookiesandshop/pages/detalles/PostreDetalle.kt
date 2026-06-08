@@ -1,4 +1,4 @@
-package com.ariana.cookiesandshop.pages.Detalles
+package com.ariana.cookiesandshop.pages.detalles
 
 import android.content.Intent
 import androidx.compose.foundation.background
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -41,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.ariana.cookiesandshop.models.Postres
-import com.ariana.cookiesandshop.pages.Home.HomeActivity
+import com.ariana.cookiesandshop.pages.home.HomeActivity
 import com.ariana.cookiesandshop.ui.theme.azulFondo
 import com.ariana.cookiesandshop.ui.theme.azulOscuro
 import com.ariana.cookiesandshop.ui.theme.degradado
@@ -66,7 +65,9 @@ fun PostreDetalle(itemPostre: Postres){
                 .fillMaxSize()
                 .offset(y = (-100).dp),
             contentScale = ContentScale.Companion.Crop,
-            alignment = Alignment.Companion.TopCenter
+            alignment = Alignment.Companion.TopCenter,
+            placeholder = painterResource(R.drawable.nofoto),
+            error= painterResource(R.drawable.nofoto)
         )
         Box(
             modifier = Modifier.Companion
@@ -226,7 +227,7 @@ fun PostreDetalle(itemPostre: Postres){
                         )
                     }
 
-                    Spacer(Modifier.Companion.width(90.dp))
+                    Spacer(Modifier.Companion.width(60.dp))
                     Button(
                         onClick = {}, colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Companion.White
@@ -245,7 +246,7 @@ fun PostreDetalle(itemPostre: Postres){
                                 fontWeight = FontWeight(700)
                             )
                         )
-                        Spacer(Modifier.Companion.width(8.dp))
+                        Spacer(Modifier.Companion.width(4.dp))
                         Icon(
                             painterResource(R.drawable.info_24dp_000000_fill0_wght400_grad0_opsz24),
                             contentDescription = null,

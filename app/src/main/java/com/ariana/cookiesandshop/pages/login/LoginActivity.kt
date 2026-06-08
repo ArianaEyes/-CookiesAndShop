@@ -1,16 +1,14 @@
-package com.ariana.cookiesandshop
+package com.ariana.cookiesandshop.pages.login
 
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandIn
-import androidx.compose.animation.shrinkOut
+import android.content.Intent
 import androidx.compose.ui.graphics.Color
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -27,16 +25,18 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AttachEmail
-import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Image
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -49,22 +49,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.data.UiToolingDataApi
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.ariana.cookiesandshop.R
 import com.ariana.cookiesandshop.ui.theme.CookiesAndShopTheme
 import com.ariana.cookiesandshop.ui.theme.fondoColor
 import com.ariana.cookiesandshop.ui.theme.grisclaro
 import com.ariana.cookiesandshop.components.BarraIcon
+import com.ariana.cookiesandshop.data.local.UserStore
+import com.ariana.cookiesandshop.models.Usuario
+import com.ariana.cookiesandshop.pages.home.HomeActivity
+import com.ariana.cookiesandshop.ui.theme.gris
+import com.ariana.cookiesandshop.utils.usuarioActivo
+import com.google.gson.Gson
 
 class LoginActivity : ComponentActivity() {
     @OptIn(UiToolingDataApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val viewModel = ViewModelProvider(this)[UsuarioViewModel::class.java]
         enableEdgeToEdge()
         setContent {
             CookiesAndShopTheme {
@@ -74,8 +86,10 @@ class LoginActivity : ComponentActivity() {
                 val scale by animateFloatAsState(
                     targetValue = if (pulse) 2f else 1f,
                     animationSpec = tween(100,easing = FastOutSlowInEasing),
-                    label = ""
+                    label = "pulse_animation"
                 )
+                val uiState by viewModel.uiState.collectAsState()
+                var iniciarLogin by remember { mutableStateOf(false) }
                 Scaffold(containerColor = Color.Transparent,bottomBar = {BarraIcon(selectedItem = 1)}) {
                         innerPadding ->
                     Box(modifier= Modifier
@@ -129,19 +143,10 @@ class LoginActivity : ComponentActivity() {
 
                             }
 
-//androidx.compose.animation.AnimatedVisibility(
-//                                        visible = pencilVisible,
-//                                        enter = expandIn(),
-//                                        exit = shrinkOut()
-//                                    ) {
-//                                        Icon(
-//                                            painter = painterResource(R.drawable.edit_24dp_000000),
-//                                            contentDescription = null
-//                                        )
-//                                    }
+
                             // TITULO NOMBRE
 
-                            Text("BIENVENIDO USUARIO9378131!!", Modifier
+                            Text("Por favor, Inicie Sesión!!", Modifier
                                 .width(250.dp)
                                 .padding(top = 15.dp),
                                 style = TextStyle(fontSize =16.sp, fontWeight = FontWeight(500) ))
@@ -149,43 +154,50 @@ class LoginActivity : ComponentActivity() {
                             //INPUTS
 
                             Column(Modifier.padding(top = 40.dp)){
-                                var user by remember { mutableStateOf("") }
                                 Casilla(
-                                    value = user,
-                                    onValueChange = {user = it},
+                                    label = R.string.emailString,
+                                    value = viewModel.email,
+                                    onValueChange = {viewModel.email = it},
                                     placeholder = { Text("Inserte usuario", color = grisclaro) },
                                     leadingIcon = {
                                         Icon(
                                             Icons.Default.Image,
                                             contentDescription = null, tint = grisclaro)})
-                                var tel by remember {mutableStateOf("")}
+
                                 Casilla(
-                                    value = tel,
-                                    onValueChange = {tel = it},
-                                    placeholder = {Text("Inserte número telefónico", color = grisclaro)},
+                                    label = R.string.passwordString,
+                                    value = viewModel.password,
+                                    onValueChange = {viewModel.password = it},
+                                    placeholder = {Text("Inserte número contraseña", color = gris)},
                                     leadingIcon = {
                                         Icon(Icons.Default.Home,
-                                            contentDescription = null, tint = grisclaro)})
-                                var gmail by remember {mutableStateOf("")}
-                                Casilla(
-                                    value = gmail,
-                                    onValueChange = {gmail = it},
-                                    placeholder = {Text("Introducir gmail", color = grisclaro)},
-                                    leadingIcon = {Icon(Icons.Default.AttachEmail, contentDescription = null, tint = grisclaro)}
-                                )
-                                var fecha by remember {mutableStateOf("")}
-                                Casilla(
-                                    value = gmail,
-                                    onValueChange = {gmail = it},
-                                    placeholder = {Text("Introducir cumpleaños", color = grisclaro)},
-                                    leadingIcon = {Icon(Icons.Default.CalendarMonth,contentDescription = null, tint = grisclaro)}
-                                )
+                                            contentDescription = null, tint = gris)},
+                                    visualTransformation = PasswordVisualTransformation(),)
 
+                                OutlinedButton(onClick = {
+                                    viewModel.fetchLogin()
+                                    iniciarLogin = true
+                                }) {
+                                    Text(text = stringResource(R.string.iniciar_sesion))
+                                }
                                 Column(Modifier
                                     .width(200.dp)
                                     .padding(top = 15.dp)) {
                                     Text("Oferta de 20% en todos los postre", style = TextStyle(fontSize = 13.sp))
                                     Text("SOLO HOY", style = TextStyle(fontSize = 13.sp))
+                                }
+                                when(val state = uiState) {
+                                    is UsuarioUIState.Loading -> {
+                                        if(iniciarLogin) {
+                                            CircularProgressIndicator()
+                                        }
+                                    }
+                                    is UsuarioUIState.Error -> {
+                                        Text(state.message, color = MaterialTheme.colorScheme.error)
+                                    }
+                                    is UsuarioUIState.Success -> {
+                                        evaluarResultado(state.resultado, viewModel)
+                                    }
                                 }
                             }
 
@@ -200,39 +212,59 @@ class LoginActivity : ComponentActivity() {
             }
         }
     }
+    private fun evaluarResultado(resultado: String, viewModel: UsuarioViewModel) {
+        when (resultado) {
+            "-1" -> Toast.makeText(this, "La cuenta no existe",
+                Toast.LENGTH_SHORT).show()
+            "-2" -> Toast.makeText(this, "La contraseña es incorrecta",
+                Toast.LENGTH_SHORT).show()
+            else -> {
+                usuarioActivo = Gson().fromJson(resultado, Array<Usuario>::class.java).first()
+                if(viewModel.estadoCheck){
+                    lifecycleScope.launch {
+                        val userStore = UserStore(this@LoginActivity)
+                        userStore.guardarDatosUsuario(resultado)
+                    }
+                }
+
+                Toast.makeText(
+                    this, "Bienvenido",
+                    Toast.LENGTH_SHORT
+                ).show()
+                startActivity(Intent(this, HomeActivity::class.java))
+            }
+        }
+    }
 }
 
 @Composable
 fun Casilla(
+    label: Int,
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
+    visualTransformation: Any? = null
 ) {
     OutlinedTextField(
-
+        label = { Text(text = stringResource(id = label)) },
         value = value,
         onValueChange = onValueChange,
-        Modifier
-            .padding(top = 10.dp)
-            .width(320.dp),
-
-
+        visualTransformation = if (visualTransformation != null) visualTransformation as VisualTransformation else VisualTransformation.None,
         placeholder = placeholder,
         leadingIcon = leadingIcon,
-
         shape = RoundedCornerShape(50.dp),
-
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.White,
             unfocusedContainerColor = Color.White,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
-
-
         ),
-
+        modifier = Modifier
+            .padding(top = 10.dp)
+            .width(320.dp),
     )
 }
+
 

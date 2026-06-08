@@ -1,4 +1,4 @@
-package com.ariana.cookiesandshop.pages.Home
+package com.ariana.cookiesandshop.pages.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,10 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -19,6 +23,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -38,6 +43,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,7 +62,7 @@ import com.ariana.cookiesandshop.DeliveryActivity
 import com.ariana.cookiesandshop.R
 import com.ariana.cookiesandshop.components.BarraIcon
 import com.ariana.cookiesandshop.models.Postres
-import com.ariana.cookiesandshop.pages.Detalles.DetallesPostreActivity
+import com.ariana.cookiesandshop.pages.detalles.DetallesPostreActivity
 import com.ariana.cookiesandshop.pages.MostrarLista.MostrarLista
 import com.ariana.cookiesandshop.ui.theme.CookiesAndShopTheme
 import com.ariana.cookiesandshop.ui.theme.azulClaro
@@ -101,6 +107,14 @@ class HomeActivity : ComponentActivity() {
                             Log.e("ERROR_API", e.message.toString())
                         }
                     }
+                    var pulse by remember { mutableStateOf(false) }
+                    val scope = rememberCoroutineScope()
+
+                    val scale by animateFloatAsState(
+                        targetValue = if (pulse) 2f else 1f,
+                        animationSpec = tween(100,easing = FastOutSlowInEasing),
+                        label = ""
+                    )
                     Box(
                         modifier = Modifier.fillMaxSize()
                             .padding(innerPadding)
@@ -145,16 +159,33 @@ class HomeActivity : ComponentActivity() {
                                             bottom = 10.dp,
                                             start = 15.dp,
                                             end = 15.dp
-                                        ),
+                                        )
+                                        .clipToBounds(),
                                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Icon(
-                                        painterResource(R.drawable.motorcycle_24dp_000d70_fill0_wght400_grad0_opsz24),
-                                        contentDescription = null,
-                                        tint = Color.Unspecified
+                                    var mover by remember { mutableStateOf(false) }
+
+                                    val offsetX by animateDpAsState(
+                                        targetValue = if (mover) 200.dp else 0.dp,
+                                        animationSpec = tween(1000),
+                                        label = ""
                                     )
-                                    Text("Tu pedido está en camino...")
+                                    Icon(
+                                        painter = painterResource(R.drawable.motorcycle_24dp_000d70_fill0_wght400_grad0_opsz24),
+                                        contentDescription = null,
+                                        tint = Color.Unspecified,
+                                        modifier = Modifier
+                                            .offset(x = offsetX)
+                                            .clickable {
+                                                mover = !mover
+                                            }
+                                    )
+                                    Text("Tu pedido está en camino...",modifier = Modifier
+                                        .offset(x = offsetX)
+                                        .clickable {
+                                            mover = !mover
+                                        })
 
                                     val context = LocalContext.current
                                     IconButton(
@@ -163,6 +194,7 @@ class HomeActivity : ComponentActivity() {
                                             context.startActivity(intent)
                                         },
                                         Modifier.padding(start = 30.dp)
+                                            .background(Color.White)
                                     ) {
                                         Icon(
                                             painter = painterResource(R.drawable.baseline_arrow_forward_ios_24),
@@ -296,7 +328,7 @@ class HomeActivity : ComponentActivity() {
                                         style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight(600))
                                     )
 
-                                    postres.chunked(2).forEach { par ->
+                                    postres.take(8).chunked(2).forEach { par ->
                                         Row(
                                             Modifier.height(260.dp).width(360.dp),
                                             horizontalArrangement = Arrangement.SpaceBetween
@@ -336,13 +368,14 @@ class HomeActivity : ComponentActivity() {
                                                                 .clip(RoundedCornerShape(50.dp))
                                                                 .background(Color.White)
                                                                 .border(1.dp, azulFondo, RoundedCornerShape(50.dp))
-                                                                .align(Alignment.TopEnd)
+
                                                         ) {
                                                             Icon(
                                                                 painterResource(R.drawable.favorite_24dp_ffffff_fill0_wght400_grad0_opsz24),
                                                                 contentDescription = null,
                                                                 Modifier.align(Alignment.Center),
-                                                                tint = azulFondo
+                                                                tint = azulFondo,
+
                                                             )
                                                         }
                                                     }
