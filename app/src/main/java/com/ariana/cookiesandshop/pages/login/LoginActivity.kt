@@ -1,13 +1,17 @@
 package com.ariana.cookiesandshop.pages.login
 
 
+import android.R.attr.top
 import android.content.Intent
+import android.net.Uri
 import androidx.compose.ui.graphics.Color
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -17,6 +21,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -25,12 +31,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.Password
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -47,6 +57,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -68,6 +79,8 @@ import com.ariana.cookiesandshop.components.BarraIcon
 import com.ariana.cookiesandshop.data.local.UserStore
 import com.ariana.cookiesandshop.models.Usuario
 import com.ariana.cookiesandshop.pages.home.HomeActivity
+import com.ariana.cookiesandshop.ui.theme.Roboto
+import com.ariana.cookiesandshop.ui.theme.azulFondo
 import com.ariana.cookiesandshop.ui.theme.gris
 import com.ariana.cookiesandshop.utils.usuarioActivo
 import com.google.gson.Gson
@@ -80,6 +93,14 @@ class LoginActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CookiesAndShopTheme {
+                var imagenUri by remember { mutableStateOf<Uri?>(null) }
+
+                val launcher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.GetContent()
+                ) { uri: Uri? ->
+                    imagenUri = uri
+                }
+
                 var pulse by remember { mutableStateOf(false) }
                 val scope = rememberCoroutineScope()
 
@@ -102,58 +123,65 @@ class LoginActivity : ComponentActivity() {
                     {
 
                         Column(Modifier
-                            .fillMaxSize(),
+                            .fillMaxSize()
+                            .graphicsLayer {
+                                clip = false
+                            },
                             horizontalAlignment = Alignment.CenterHorizontally){
 
                             //FOTO DE PERFIL
-                            Box(Modifier
-                                .padding(top = 40.dp)
-                            ){
-                                Image(painterResource(R.drawable.postre3),
-                                    contentDescription = null,
-                                    Modifier
-                                        .clip(RoundedCornerShape(5.dp))
-                                        .size(width = 140.dp, height = 140.dp), contentScale = ContentScale.Crop
-                                )
-                                Box(
-                                    Modifier
-                                        .padding(start = 110.dp, top = 110.dp)
-                                        .size(40.dp)
-                                        .graphicsLayer {
-                                            scaleX = scale
-                                            scaleY = scale
-                                        }
-                                        .clip(RoundedCornerShape(50.dp))
-                                        .background(Color.White)
-                                        .align(Alignment.BottomEnd)
-                                        .clickable {
-                                            scope.launch {
-                                                pulse = true
-                                                delay(500)
-                                                pulse = false
-                                            }
-                                        }
+                            Box {
+                                Card(
+                                    Modifier.padding(top=40.dp),
+                                    shape = RoundedCornerShape(12.dp),
+                                    elevation = CardDefaults.cardElevation(8.dp)
                                 ) {
-                                    Icon(
-                                        painter = painterResource(R.drawable.edit_24dp_000000),
-                                        contentDescription = null,
-                                        modifier = Modifier.align(Alignment.Center)
-                                    )
+                                    Box(
+                                        modifier = Modifier.size(140.dp)
+                                    ) {
+
+                                        Image(
+                                            painter = painterResource(R.drawable.postre3),
+                                            contentDescription = null,
+                                            contentScale = ContentScale.Crop,
+                                            modifier = Modifier.matchParentSize()
+                                        )
+                                    }
                                 }
 
-                            }
+                                Box(
+                                    modifier = Modifier
+                                        .align(Alignment.BottomEnd)
+                                        .offset(x = 8.dp, y = 8.dp)
+                                        .size(40.dp)
+                                        .clip(RoundedCornerShape(50.dp))
+                                        .background(Color.White)
+                                ) {
+                                    IconButton(onClick = {
+                                        launcher.launch("image/*")
+                                    }) {
+                                        Icon(
+                                            painter = painterResource(R.drawable.edit_24dp_000000),
+                                            contentDescription = null,
+                                            modifier = Modifier.align(Alignment.Center)
+                                        )
+                                    }
 
+                                }
+                            }
 
                             // TITULO NOMBRE
 
-                            Text("Por favor, Inicie Sesión!!", Modifier
-                                .width(250.dp)
+                            Text("Bienvenido", Modifier
+                                .width(100.dp)
                                 .padding(top = 15.dp),
-                                style = TextStyle(fontSize =16.sp, fontWeight = FontWeight(500) ))
+                                style = TextStyle(fontSize =16.sp, fontWeight = FontWeight.Medium, fontFamily = Roboto ))
+
 
                             //INPUTS
 
-                            Column(Modifier.padding(top = 40.dp)){
+                            Column(Modifier.padding(top = 40.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally){
                                 Casilla(
                                     label = R.string.emailString,
                                     value = viewModel.email,
@@ -161,31 +189,32 @@ class LoginActivity : ComponentActivity() {
                                     placeholder = { Text("Inserte usuario", color = grisclaro) },
                                     leadingIcon = {
                                         Icon(
-                                            Icons.Default.Image,
-                                            contentDescription = null, tint = grisclaro)})
+                                            Icons.Default.Person,
+                                            contentDescription = null, tint = grisclaro,
+                                            modifier = Modifier.padding(start = 10.dp))})
 
                                 Casilla(
                                     label = R.string.passwordString,
                                     value = viewModel.password,
                                     onValueChange = {viewModel.password = it},
-                                    placeholder = {Text("Inserte número contraseña", color = gris)},
+                                    placeholder = {Text("Inserte número contraseña")},
                                     leadingIcon = {
-                                        Icon(Icons.Default.Home,
-                                            contentDescription = null, tint = gris)},
+                                        Icon(Icons.Default.Password,
+                                            contentDescription = null, tint = gris,
+                                            modifier = Modifier.padding(start = 10.dp))},
                                     visualTransformation = PasswordVisualTransformation(),)
 
-                                OutlinedButton(onClick = {
-                                    viewModel.fetchLogin()
-                                    iniciarLogin = true
-                                }) {
-                                    Text(text = stringResource(R.string.iniciar_sesion))
+                                Button(onClick = { viewModel.fetchLogin()
+                                    iniciarLogin = true},
+                                    modifier = Modifier.padding(top = 20.dp, start = 10.dp)
+                                        .width(250.dp)
+                                        .height(50.dp),
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = azulFondo,
+                                        contentColor = Color.White)) {
+                                    Text(text = stringResource(R.string.iniciar_sesion), fontSize = 20.sp, fontFamily = Roboto, fontWeight = FontWeight.Medium)
                                 }
-                                Column(Modifier
-                                    .width(200.dp)
-                                    .padding(top = 15.dp)) {
-                                    Text("Oferta de 20% en todos los postre", style = TextStyle(fontSize = 13.sp))
-                                    Text("SOLO HOY", style = TextStyle(fontSize = 13.sp))
-                                }
+
                                 when(val state = uiState) {
                                     is UsuarioUIState.Loading -> {
                                         if(iniciarLogin) {
@@ -247,7 +276,7 @@ fun Casilla(
     visualTransformation: Any? = null
 ) {
     OutlinedTextField(
-        label = { Text(text = stringResource(id = label)) },
+        label = { Text(text = stringResource(id = label), fontFamily = Roboto, fontWeight = FontWeight.Normal) },
         value = value,
         onValueChange = onValueChange,
         visualTransformation = if (visualTransformation != null) visualTransformation as VisualTransformation else VisualTransformation.None,

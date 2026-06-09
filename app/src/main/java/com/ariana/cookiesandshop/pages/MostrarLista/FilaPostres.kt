@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -111,16 +112,6 @@ fun FilaPostres(iPostres: Postres, viewModel: DetallesViewModel) {
                             color = azulFondo
                         )
                     )
-                    IconButton(
-                        onClick = {
-                            viewModel.deletePostre(iPostres.id_postre)
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "Eliminar"
-                        )
-                    }
 
                     Box(
                         modifier = Modifier
@@ -138,6 +129,16 @@ fun FilaPostres(iPostres: Postres, viewModel: DetallesViewModel) {
                                 fontWeight = FontWeight.Bold,
                                 color = if (iPostres.disponible == 1) Color(0xFF2E7D32) else Color(0xFFC62828)
                             )
+                        )
+                    }
+                    IconButton(
+                        onClick = {
+                            viewModel.deletePostre(iPostres.id_postre)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Eliminar"
                         )
                     }
                 }

@@ -197,7 +197,7 @@ fun PostreDetalle(itemPostre: Postres){
                         contentPadding = PaddingValues(0.dp)
                     ) {
                         Text(
-                            "200kcal",
+                            text= "${itemPostre.calorias}kcal",
                             style = TextStyle(
                                 color = Color.Companion.Black,
                                 fontSize = 13.sp,
@@ -263,12 +263,12 @@ fun PostreDetalle(itemPostre: Postres){
 
                     Column {
                         Text(
-                            "500", style = TextStyle(
+                            "Quedan :", style = TextStyle(
                                 fontSize = 18.sp, fontWeight = FontWeight(900)
                             )
                         )
                         Text(
-                            "kcal", style = TextStyle(
+                            "${itemPostre.stock}", style = TextStyle(
                                 fontSize = 14.sp, fontWeight = FontWeight(400)
                             )
                         )
@@ -276,12 +276,12 @@ fun PostreDetalle(itemPostre: Postres){
 
                     Column {
                         Text(
-                            "500", style = TextStyle(
+                            "Precio:", style = TextStyle(
                                 fontSize = 18.sp, fontWeight = FontWeight(900)
                             )
                         )
                         Text(
-                            "kcal", style = TextStyle(
+                            "${itemPostre.precio}", style = TextStyle(
                                 fontSize = 14.sp, fontWeight = FontWeight(400)
                             )
                         )
@@ -289,29 +289,18 @@ fun PostreDetalle(itemPostre: Postres){
 
                     Column {
                         Text(
-                            "500", style = TextStyle(
+                            "Receta", style = TextStyle(
                                 fontSize = 18.sp, fontWeight = FontWeight(900)
                             )
                         )
                         Text(
-                            "kcal", style = TextStyle(
+                            "${itemPostre.receta}", style = TextStyle(
                                 fontSize = 14.sp, fontWeight = FontWeight(400)
                             )
                         )
                     }
 
-                    Column {
-                        Text(
-                            "500", style = TextStyle(
-                                fontSize = 18.sp, fontWeight = FontWeight(900)
-                            )
-                        )
-                        Text(
-                            "kcal", style = TextStyle(
-                                fontSize = 14.sp, fontWeight = FontWeight(400)
-                            )
-                        )
-                    }
+
                 }
             }
 

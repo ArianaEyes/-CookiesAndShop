@@ -23,10 +23,11 @@ interface PostresService {
 
     @PUT("postres.php")
     suspend fun updatePostre(
+        @Query("id_postre") id: Int,
         @Body postre: Postres
     ): Response<PostreResponse>
-    @DELETE("postres.php/{id_postre}")
+    @DELETE("postres.php")
     suspend fun deletePostre(
-        @Path("id_postre") id_postre: Int
+        @Query("id_postre") id_postre: Int
     ): Response<PostreResponse>
 }

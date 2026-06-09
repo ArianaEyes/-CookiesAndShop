@@ -1,10 +1,14 @@
 package com.ariana.cookiesandshop.ui.theme
 
+import android.R.attr.fontFamily
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.ariana.cookiesandshop.R
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -15,14 +19,8 @@ val Typography = Typography(
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
+
+/* Other default text styles to override
     labelSmall = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
@@ -31,4 +29,23 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     )
     */
+)
+
+
+val Roboto = FontFamily(
+    Font(R.font.robotomono_bold, FontWeight.Bold),
+    Font(R.font.robotomono_regular, FontWeight.Normal),
+    Font(R.font.robotomono_medium, FontWeight.Medium)
+)
+val PlusJakarta = FontFamily(
+    Font(R.font.plusjakarta, FontWeight.Normal),
+    Font(R.font.plusjakartaitalic, FontWeight.Normal, FontStyle.Italic),
+)
+
+val Fjalla = FontFamily(
+    Font(R.font.fjallaone_regular, FontWeight.Normal),
+)
+val Nunito = FontFamily(
+    Font(R.font.nunito),
+    Font(R.font.nunitoitalic, FontWeight.Normal, FontStyle.Italic),
 )

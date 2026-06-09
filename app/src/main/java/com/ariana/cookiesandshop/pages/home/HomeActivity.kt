@@ -31,9 +31,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import coil.compose.AsyncImage
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -49,11 +53,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -65,6 +74,10 @@ import com.ariana.cookiesandshop.models.Postres
 import com.ariana.cookiesandshop.pages.detalles.DetallesPostreActivity
 import com.ariana.cookiesandshop.pages.MostrarLista.MostrarLista
 import com.ariana.cookiesandshop.ui.theme.CookiesAndShopTheme
+import com.ariana.cookiesandshop.ui.theme.Fjalla
+import com.ariana.cookiesandshop.ui.theme.Nunito
+import com.ariana.cookiesandshop.ui.theme.PlusJakarta
+import com.ariana.cookiesandshop.ui.theme.Roboto
 import com.ariana.cookiesandshop.ui.theme.azulClaro
 import com.ariana.cookiesandshop.ui.theme.azulFondo
 import com.ariana.cookiesandshop.ui.theme.chocolate
@@ -136,7 +149,7 @@ class HomeActivity : ComponentActivity() {
                                     modifier = Modifier
                                         .padding(8.dp),
                                     style = TextStyle(
-                                        fontWeight = FontWeight(600),
+                                        fontFamily = Fjalla,
                                         fontSize = 20.sp
                                     )
                                 )
@@ -185,7 +198,8 @@ class HomeActivity : ComponentActivity() {
                                         .offset(x = offsetX)
                                         .clickable {
                                             mover = !mover
-                                        })
+                                        }, fontFamily = PlusJakarta, fontWeight = FontWeight.Normal
+                                    )
 
                                     val context = LocalContext.current
                                     IconButton(
@@ -213,17 +227,19 @@ class HomeActivity : ComponentActivity() {
                                             start = 30.dp,
                                             bottom = 0.dp,
                                             end = 20.dp
-                                        ),
+                                        )
+                                    ,
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
                                     Column()
                                     {
                                         Text(
                                             "Escanea el QR!",
-                                            style = TextStyle(color = Color.White, fontSize = 22.sp)
+                                            style = TextStyle(color = Color.White, fontSize = 18.sp)
+                                            , fontFamily = PlusJakarta, fontWeight = FontWeight.Normal
                                         )
-                                        Text("Obtén ya tu plato", color = Color.White)
-                                        Text("Personaliza tus sabores", color = Color.White)
+                                        Text("Obtén ya tu plato", color = Color.White, fontFamily = PlusJakarta, fontWeight = FontWeight.Normal, fontSize = 14.sp)
+                                        Text("Personaliza tus sabores", color = Color.White, fontFamily = PlusJakarta, fontWeight = FontWeight.Normal, fontSize = 14.sp)
                                         Button(
                                             onClick = {val intent = Intent(context, MostrarLista::class.java)
                                                 startActivity(intent)}, colors = ButtonDefaults.buttonColors(
@@ -240,8 +256,9 @@ class HomeActivity : ComponentActivity() {
                                                 style = TextStyle(
                                                     color = Color.Black,
                                                     fontSize = 13.sp,
-                                                    fontWeight = FontWeight(700)
+
                                                 )
+                                                , fontFamily = PlusJakarta, fontWeight = FontWeight.Bold
                                             )
                                         }
                                     }
@@ -250,13 +267,15 @@ class HomeActivity : ComponentActivity() {
                                         contentDescription = "Qr", Modifier
                                             .width(100.dp)
                                             .clip(RoundedCornerShape(15.dp))
+
                                     )
                                 }
                                 Image(
-                                    painterResource(R.drawable.postre3),
+                                    painter = painterResource(R.drawable.postre3),
                                     contentDescription = "Postrechito",
-                                    Modifier
-                                        .clip(RoundedCornerShape(20))
+                                    modifier = Modifier
+                                        .shadow(8.dp, RoundedCornerShape(20.dp))
+                                        .clip(RoundedCornerShape(20.dp))
                                         .size(width = 380.dp, height = 150.dp),
                                     contentScale = ContentScale.Crop
                                 )
@@ -272,42 +291,69 @@ class HomeActivity : ComponentActivity() {
                                 ) {
                                     postres.take(8).chunked(2).forEach { par ->
                                         par.forEach { postre ->
-                                            Box() {
-                                                AsyncImage(
-                                                    model = ImageRequest.Builder(LocalContext.current)
-                                                        .data(postre.imagen)
-                                                        .crossfade(true)
-                                                        .build(),
-                                                    contentDescription = "null",
-                                                    Modifier
-                                                        .clip(RoundedCornerShape(20.dp))
-                                                        .border(
-                                                            3.dp,
-                                                            chocolate,
-                                                            RoundedCornerShape(20.dp)
+                                            Card(
+                                                shape = RoundedCornerShape(20.dp),
+                                                elevation = CardDefaults.cardElevation(8.dp),
+                                                        modifier = Modifier
+                                                        .padding(top=15.dp, bottom=15.dp)
+                                            ) {
+
+                                                Box(
+                                                    modifier = Modifier
+                                                        .size(width = 120.dp, height = 180.dp)
+                                                ) {
+
+                                                    AsyncImage(
+
+                                                        model = ImageRequest.Builder(LocalContext.current)
+                                                            .data(postre.imagen)
+                                                            .crossfade(true)
+                                                            .build(),
+                                                        contentDescription = null,
+                                                        modifier = Modifier
+
+                                                            .matchParentSize()
+                                                            .clip(RoundedCornerShape(20.dp))
+                                                            .border(
+                                                                3.dp,
+                                                                chocolate,
+                                                                RoundedCornerShape(20.dp)
+                                                            ),
+                                                        contentScale = ContentScale.Crop,
+                                                        placeholder = painterResource(R.drawable.nofoto),
+                                                        error = painterResource(R.drawable.nofoto)
+                                                    )
+
+                                                    Text(
+                                                        text = postre.nom_postre,
+                                                        modifier = Modifier.padding(10.dp, top = 75.dp),
+                                                        style = TextStyle(
+                                                            color = Color.White,
+                                                            fontWeight = FontWeight.Black,
+                                                            fontSize = 10.sp,
+                                                            shadow = Shadow(
+                                                                color = Color.Black,
+                                                                offset = Offset(2f, 2f),
+                                                                blurRadius = 6f
+                                                            )
                                                         )
-                                                        .size(width = 120.dp, height = 140.dp),
-                                                    contentScale = ContentScale.Crop,
-                                                     placeholder = painterResource(R.drawable.nofoto),
-                                                    error= painterResource(R.drawable.nofoto)
-                                                )
-                                                Text(
-                                                    postre.nom_postre,
-                                                    Modifier.padding(15.dp, top = 95.dp),
-                                                    style = TextStyle(
-                                                        Color.White,
-                                                        fontWeight = FontWeight(900),
-                                                        fontSize = 10.sp
                                                     )
-                                                )
-                                                Text(
-                                                    postre.precio.toString(), Modifier.padding(15.dp, top = 110.dp),
-                                                    style = TextStyle(
-                                                        Color.White,
-                                                        fontWeight = FontWeight(900),
-                                                        fontSize = 15.sp
+
+                                                    Text(
+                                                        text = postre.precio.toString(),
+                                                        modifier = Modifier.padding(12.dp, top = 85.dp),
+                                                        style = TextStyle(
+                                                            color = Color.White,
+                                                            fontWeight = FontWeight.Black,
+                                                            fontSize = 15.sp,
+                                                            shadow = Shadow(
+                                                                color = Color.Black,
+                                                                offset = Offset(2f, 2f),
+                                                                blurRadius = 6f
+                                                            )
+                                                        )
                                                     )
-                                                )
+                                                }
                                             }
                                         }
 
@@ -326,93 +372,145 @@ class HomeActivity : ComponentActivity() {
                                         "Postres:",
                                         Modifier.align(Alignment.Start).padding(start = 10.dp, bottom = 20.dp),
                                         style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight(600))
+                                        , fontFamily = Fjalla, fontWeight = FontWeight.Normal
                                     )
 
                                     postres.take(8).chunked(2).forEach { par ->
                                         Row(
-                                            Modifier.height(260.dp).width(360.dp),
+                                            modifier = Modifier
+                                                .height(260.dp)
+                                                .width(360.dp),
                                             horizontalArrangement = Arrangement.SpaceBetween
                                         ) {
+
                                             par.forEach { postre ->
-                                                Column(
-                                                    Modifier
-                                                        .width(160.dp)
+
+                                                Card(
+                                                    shape = RoundedCornerShape(20.dp),
+                                                    elevation = CardDefaults.cardElevation(8.dp),
+                                                    modifier = Modifier
+                                                        .width(150.dp)
                                                         .height(260.dp)
-                                                        .background(Color.White, shape = RoundedCornerShape(20.dp))
-                                                    ,
-                                                    horizontalAlignment = Alignment.CenterHorizontally
+                                                        .padding(4.dp),
+                                                    colors = CardDefaults.cardColors(
+                                                        containerColor = Color.White
+                                                    )
                                                 ) {
-                                                    Box {
-                                                        AsyncImage(
-                                                            model = ImageRequest.Builder(LocalContext.current)
-                                                                .data(postre.imagen)
-                                                                .crossfade(true)
-                                                                .build(),
-                                                            contentDescription = null,
+
+                                                    Column(
+                                                        modifier = Modifier.fillMaxSize(),
+                                                        horizontalAlignment = Alignment.CenterHorizontally
+                                                    ) {
+
+                                                        Box {
+
+                                                            AsyncImage(
+                                                                model = ImageRequest.Builder(LocalContext.current)
+                                                                    .data(postre.imagen)
+                                                                    .crossfade(true)
+                                                                    .build(),
+                                                                contentDescription = null,
+                                                                modifier = Modifier
+                                                                    .clip(
+                                                                        RoundedCornerShape(
+                                                                            topStart = 20.dp,
+                                                                            topEnd = 20.dp
+                                                                        )
+                                                                    )
+                                                                    .size(width = 170.dp, height = 130.dp)
+                                                                    .clickable {
+                                                                        val intent = Intent(
+                                                                            context,
+                                                                            DetallesPostreActivity::class.java
+                                                                        )
+                                                                        intent.putExtra("id_postre", postre.id_postre)
+                                                                        context.startActivity(intent)
+                                                                    },
+                                                                contentScale = ContentScale.Crop,
+                                                                placeholder = painterResource(R.drawable.nofoto),
+                                                                error = painterResource(R.drawable.nofoto)
+                                                            )
+
+                                                            Box(
+                                                                modifier = Modifier
+                                                                    .align(Alignment.TopEnd)
+                                                                    .padding(end = 5.dp, top = 8.dp)
+                                                                    .size(40.dp)
+                                                                    .clip(RoundedCornerShape(50.dp))
+                                                                    .background(Color.White)
+                                                                    .border(1.dp, azulFondo, RoundedCornerShape(50.dp))
+                                                            ) {
+                                                                Icon(
+                                                                    painterResource(R.drawable.favorite_24dp_ffffff_fill0_wght400_grad0_opsz24),
+                                                                    contentDescription = null,
+                                                                    modifier = Modifier.align(Alignment.Center),
+                                                                    tint = azulFondo
+                                                                )
+                                                            }
+                                                        }
+
+
+
+                                                        Text(
+                                                            postre.nom_postre,
                                                             modifier = Modifier
-                                                                .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
-                                                                .size(width = 170.dp, height = 140.dp)
-                                                                .clickable { // 👈 agrega esto
-                                                                    val intent = Intent(context, DetallesPostreActivity::class.java)
+                                                                .align(Alignment.CenterHorizontally)
+                                                                .padding( top = 8.dp),
+                                                            fontFamily = Fjalla,
+                                                            fontSize = 15.sp
+                                                        )
+                                                        Row(modifier = Modifier.padding(5.dp)){
+                                                            Text(
+                                                                "S/ ${postre.precio}",
+                                                                modifier = Modifier,
+                                                                style = TextStyle(fontSize = 15.sp),
+                                                                fontFamily = Fjalla,
+                                                                color= azulFondo
+                                                            )
+                                                            Text(
+                                                                "Stock: ${postre.stock}",
+                                                                modifier = Modifier.padding(start = 10.dp),
+                                                                style = TextStyle(fontSize = 15.sp),
+                                                                fontFamily = Fjalla
+                                                            )
+                                                        }
+
+                                                        Row(
+                                                            modifier = Modifier.padding(5.dp),
+                                                            horizontalArrangement = Arrangement.Center
+                                                        ) {
+                                                            Button(
+                                                                onClick = {
+                                                                    val intent = Intent(
+                                                                        context,
+                                                                        DetallesPostreActivity::class.java
+                                                                    )
                                                                     intent.putExtra("id_postre", postre.id_postre)
                                                                     context.startActivity(intent)
                                                                 },
-                                                            contentScale = ContentScale.Crop,
-                                                            placeholder = painterResource(R.drawable.nofoto),
-                                                            error= painterResource(R.drawable.nofoto)
-                                                        )
-                                                        Box(
-                                                            Modifier
-                                                                .padding(end = 10.dp, top = 10.dp)
-                                                                .size(40.dp)
-                                                                .clip(RoundedCornerShape(50.dp))
-                                                                .background(Color.White)
-                                                                .border(1.dp, azulFondo, RoundedCornerShape(50.dp))
-
-                                                        ) {
-                                                            Icon(
-                                                                painterResource(R.drawable.favorite_24dp_ffffff_fill0_wght400_grad0_opsz24),
-                                                                contentDescription = null,
-                                                                Modifier.align(Alignment.Center),
-                                                                tint = azulFondo,
-
-                                                            )
+                                                                colors = ButtonDefaults.buttonColors(containerColor = azulClaro),
+                                                                modifier = Modifier
+                                                                    .width(120.dp)
+                                                                    .height(35.dp)
+                                                                    .padding(top = 8.dp),
+                                                                contentPadding = PaddingValues(0.dp)
+                                                            ) {
+                                                                Text(
+                                                                    "Más información",
+                                                                    style = TextStyle(
+                                                                        color = Color.Black,
+                                                                        fontSize = 12.sp,
+                                                                        fontFamily = Nunito,
+                                                                        fontWeight = FontWeight.Bold
+                                                                    )
+                                                                )
+                                                            }
                                                         }
-                                                    }
-                                                    Text(
-                                                        "S/ ${postre.precio}",
-                                                        Modifier.align(Alignment.Start).padding(start = 15.dp, top = 10.dp),
-                                                        style = TextStyle(fontSize = 22.sp)
-                                                    )
-                                                    Text(
-                                                        postre.nom_postre,
-                                                        Modifier.align(Alignment.Start).padding(start = 15.dp)
-                                                    )
-                                                    Row {
-                                                        Button(
-                                                            onClick = {
-                                                                val intent = Intent(context, DetallesPostreActivity::class.java)
-                                                                intent.putExtra("id_postre", postre.id_postre)
-                                                                context.startActivity(intent)
-                                                            },
-                                                            colors = ButtonDefaults.buttonColors(containerColor = azulClaro),
-                                                            modifier = Modifier.width(120.dp).height(35.dp).padding(top = 8.dp),
-                                                            contentPadding = PaddingValues(0.dp)
-                                                        ) {
-                                                            Text(
-                                                                "Más información",
-                                                                style = TextStyle(color = Color.Black, fontSize = 13.sp, fontWeight = FontWeight(700))
-                                                            )
-                                                        }
-                                                        Icon(
-                                                            painterResource(R.drawable.outline_add_24),
-                                                            contentDescription = null,
-                                                            Modifier.padding(top = 10.dp, start = 5.dp)
-                                                        )
                                                     }
                                                 }
                                             }
                                         }
+                                    }
                                     }
                                 }
                             }
@@ -424,6 +522,6 @@ class HomeActivity : ComponentActivity() {
                 }
             }
         }
-    }
+
 
 

@@ -134,8 +134,9 @@ class MostrarLista : ComponentActivity() {
                                                 viewModel.descripcion = itemPostres.descripcion
                                                 viewModel.calorias = itemPostres.calorias.toString()
 
-                                                seleccionarPostre(itemPostres.id_postre) }){
-                                                FilaPostres(itemPostres,viewModel)
+                                               // seleccionarPostre(itemPostres.id_postre)
+                                            }){
+                                            FilaPostres(itemPostres,viewModel)
                                         }
 
                                     }
@@ -173,10 +174,10 @@ class MostrarLista : ComponentActivity() {
                                     modifier = Modifier.fillMaxWidth()
                                 )
                                 OutlinedTextField(
-                                        label = { Text("Precio") },
-                                value = viewModel.precio,
-                                onValueChange = { viewModel.precio = it },
-                                modifier = Modifier.fillMaxWidth()
+                                    label = { Text("Precio") },
+                                    value = viewModel.precio,
+                                    onValueChange = { viewModel.precio = it },
+                                    modifier = Modifier.fillMaxWidth()
                                 )
                                 OutlinedTextField(
                                     label = { Text("Stock") },
@@ -190,7 +191,7 @@ class MostrarLista : ComponentActivity() {
                                     readOnly = true,
                                     onValueChange = {
                                         //viewModel.imagen = it
-                                                    },
+                                    },
                                     modifier = Modifier.fillMaxWidth()
                                 )
                                 Button(
@@ -241,7 +242,7 @@ class MostrarLista : ComponentActivity() {
         startActivity(intent)
         overridePendingTransition(
             android.R.anim.fade_in,
-                android.R.anim.fade_out
+            android.R.anim.fade_out
         )
     }
 }

@@ -84,25 +84,40 @@ class DetallesViewModel: ViewModel() {
             }
         }
     }
-    fun updatePostre(){
+    fun updatePostre() {
         viewModelScope.launch {
-            try{
+            try {
+
+                val id = id_postre.toIntOrNull()
+                    ?: return@launch
+
                 val nuevoPostre = Postres(
-                    id_postre.toInt(),
+                    id_postre = id,
                     nom_postre = nom_postre,
                     id_tipo = id_tipo,
                     receta = receta,
-                    precio = precio.toDouble(),
+                    precio = precio.toDoubleOrNull() ?: 0.0,
                     disponible = disponible,
-                    stock = stock.toInt(),
+                    stock = stock.toIntOrNull() ?: 0,
                     imagen = imagen,
                     descripcion = descripcion,
-                    calorias = calorias.toInt()
+                    calorias = calorias.toIntOrNull() ?: 0
                 )
-                RetrofitClient.postresService.updatePostre(nuevoPostre)
-                fetchPostres()
-            }
-            catch (e: Exception){
+
+                val response = RetrofitClient.postresService.updatePostre(
+                    id,
+                    nuevoPostre
+                )
+
+                if (response.isSuccessful) {
+                    fetchPostres()
+                } else {
+                    _uiState.value = PostreDetalleUIState.Error(
+                        "Error HTTP: ${response.code()} ${response.errorBody()?.string()}"
+                    )
+                }
+
+            } catch (e: Exception) {
                 _uiState.value = PostreDetalleUIState.Error(
                     "Error al actualizar datos: ${e.localizedMessage}"
                 )
