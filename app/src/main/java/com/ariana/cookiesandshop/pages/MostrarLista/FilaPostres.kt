@@ -12,8 +12,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,16 +32,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ariana.cookiesandshop.R
 import com.ariana.cookiesandshop.models.Postres
 import com.ariana.cookiesandshop.models.TipoPostre
+import com.ariana.cookiesandshop.pages.detalles.DetallesViewModel
 import com.ariana.cookiesandshop.ui.theme.azulFondo
 
 @Composable
-fun FilaPostres(iPostres: Postres) {
+fun FilaPostres(iPostres: Postres, viewModel: DetallesViewModel) {
     val context = LocalContext.current
+
 
     Card(
         modifier = Modifier
@@ -104,6 +111,16 @@ fun FilaPostres(iPostres: Postres) {
                             color = azulFondo
                         )
                     )
+                    IconButton(
+                        onClick = {
+                            viewModel.deletePostre(iPostres.id_postre)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Eliminar"
+                        )
+                    }
 
                     Box(
                         modifier = Modifier
@@ -113,6 +130,7 @@ fun FilaPostres(iPostres: Postres) {
                             )
                             .padding(horizontal = 10.dp, vertical = 4.dp)
                     ) {
+
                         Text(
                             text = if (iPostres.disponible == 1) "✓ Stock: ${iPostres.stock}" else "Agotado",
                             style = TextStyle(

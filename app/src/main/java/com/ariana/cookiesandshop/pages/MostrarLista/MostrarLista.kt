@@ -1,5 +1,8 @@
 package com.ariana.cookiesandshop.pages.MostrarLista
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,9 +14,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
@@ -61,8 +67,14 @@ class MostrarLista : ComponentActivity() {
                 val uiState by viewModel.uiState.collectAsState()
                 var mostrarBottomSheet by remember { mutableStateOf(false) }
                 var mostrarActualizar by remember { mutableStateOf(false) }
+                var imagenUri by remember { mutableStateOf<Uri?>(null) }
 
-
+                val launcher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.GetContent()
+                ) { uri: Uri? ->
+                    imagenUri = uri
+                    viewModel.imagen = uri?.toString() ?: ""
+                }
                 Scaffold(
                     containerColor = Color.Transparent,
                     topBar = { TopBar("Volver") },
@@ -123,7 +135,7 @@ class MostrarLista : ComponentActivity() {
                                                 viewModel.calorias = itemPostres.calorias.toString()
 
                                                 seleccionarPostre(itemPostres.id_postre) }){
-                                                FilaPostres(itemPostres)
+                                                FilaPostres(itemPostres,viewModel)
                                         }
 
                                     }
@@ -137,12 +149,15 @@ class MostrarLista : ComponentActivity() {
                                 mostrarBottomSheet = false
                             }
                         ) {
-                            Column(Modifier.padding(24.dp)) {
+                            Column(Modifier.padding(24.dp)
+                                .height(580.dp)
+                                .verticalScroll(rememberScrollState())) {
                                 val etiquetaTitulo = if(mostrarActualizar) "Actualizar director ${viewModel.id_postre}"
-                                else "Nuevo postre"
+                                else "¿Qué postre vamos a vender🍪?"
                                 Text(
                                     text = etiquetaTitulo,
-                                    style = MaterialTheme.typography.headlineLarge
+                                    style = MaterialTheme.typography.headlineMedium,
+                                    modifier = Modifier.padding(bottom = 10.dp)
                                 )
                                 OutlinedTextField(
                                     label = { Text("Nombre completo") },
@@ -150,12 +165,7 @@ class MostrarLista : ComponentActivity() {
                                     onValueChange = { viewModel.nom_postre = it },
                                     modifier = Modifier.fillMaxWidth()
                                 )
-                                OutlinedTextField(
-                                    label = { Text("Receta") },
-                                    value = viewModel.receta,
-                                    onValueChange = { viewModel.receta = it },
-                                    modifier = Modifier.fillMaxWidth()
-                                )
+
                                 OutlinedTextField(
                                     label = { Text("Receta") },
                                     value = viewModel.receta,
@@ -177,9 +187,19 @@ class MostrarLista : ComponentActivity() {
                                 OutlinedTextField(
                                     label = { Text("Imagen") },
                                     value = viewModel.imagen,
-                                    onValueChange = { viewModel.imagen = it },
+                                    readOnly = true,
+                                    onValueChange = {
+                                        //viewModel.imagen = it
+                                                    },
                                     modifier = Modifier.fillMaxWidth()
                                 )
+                                Button(
+                                    onClick = {
+                                        launcher.launch("image/*")
+                                    }
+                                ) {
+                                    Text("Seleccionar imagen")
+                                }
                                 OutlinedTextField(
                                     label = { Text("Descripción") },
                                     value = viewModel.descripcion,
@@ -188,7 +208,7 @@ class MostrarLista : ComponentActivity() {
                                 )
                                 OutlinedTextField(
                                     label = { Text("Calorías") },
-                                    value = viewModel.calorias.toString(),
+                                    value = viewModel.calorias,
                                     onValueChange = { viewModel.calorias = it },
                                     modifier = Modifier.fillMaxWidth()
                                 )
@@ -198,7 +218,7 @@ class MostrarLista : ComponentActivity() {
                                         viewModel.updatePostre()
                                     else
                                         viewModel.insertPostre()
-                                }) {
+                                }, modifier = Modifier.padding(top=10.dp)) {
                                     val etiquetaboton =  if(mostrarActualizar) "Actualizar" else "Guardar"
                                     Text(etiquetaboton)
                                 }

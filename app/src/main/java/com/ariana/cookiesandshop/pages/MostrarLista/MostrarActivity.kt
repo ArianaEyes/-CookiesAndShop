@@ -47,10 +47,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
 import com.ariana.cookiesandshop.pages.home.HomeActivity
 import com.ariana.cookiesandshop.pages.home.PostresService
 import com.ariana.cookiesandshop.R
 import com.ariana.cookiesandshop.models.Postres
+import com.ariana.cookiesandshop.pages.detalles.DetallesViewModel
 import com.ariana.cookiesandshop.pages.ui.theme.CookiesAndShopTheme
 import com.ariana.cookiesandshop.ui.theme.azulFondo
 import retrofit2.Retrofit
@@ -60,7 +62,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MostrarActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        val viewModel = ViewModelProvider(this)[DetallesViewModel::class.java]
         val api = Retrofit.Builder()
             .baseUrl("https://wyper.alwaysdata.net/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -101,7 +103,7 @@ class MostrarActivity : ComponentActivity() {
                                 Spacer(Modifier.height(40.dp))
                                 LazyColumn {
                                     items(items = postres){ itemPostres ->
-                                        FilaPostres(itemPostres)
+                                        FilaPostres(itemPostres,viewModel)
                                     }
                                 }
                             }

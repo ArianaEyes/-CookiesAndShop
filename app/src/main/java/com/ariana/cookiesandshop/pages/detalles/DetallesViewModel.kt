@@ -1,10 +1,12 @@
 package com.ariana.cookiesandshop.pages.detalles
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ariana.cookiesandshop.data.remote.PostresService
 import com.ariana.cookiesandshop.data.remote.RetrofitClient
 import com.ariana.cookiesandshop.models.Postres
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,7 +53,7 @@ class DetallesViewModel: ViewModel() {
                 _uiState.value = PostreDetalleUIState.Success(respuesta[0])
             } catch (e: Exception) {
                 _uiState.value = PostreDetalleUIState.Error(
-                    "Error al cargar datos: ${e.localizedMessage}"
+                    "Error al cargar datos por id: ${e.localizedMessage}"
                 )
             }
         }
@@ -102,9 +104,28 @@ class DetallesViewModel: ViewModel() {
             }
             catch (e: Exception){
                 _uiState.value = PostreDetalleUIState.Error(
-                    "Error al insertar datos: ${e.localizedMessage}"
+                    "Error al actualizar datos: ${e.localizedMessage}"
                 )
             }
         }
     }
+
+    fun deletePostre(id_postre: Int){
+        viewModelScope.launch {
+            try{
+                val response = RetrofitClient.postresService.deletePostre(id_postre)
+                Log.d("DELETE", "Código: ${response.code()}")
+                Log.d("DELETE", "Exitoso: ${response.isSuccessful}")
+                Log.d("DELETE", "Body: ${response.body()}")
+                fetchPostres()
+            }
+            catch (e: Exception){
+                _uiState.value = PostreDetalleUIState.Error(
+                    "Error al eliminar postre: ${e.localizedMessage}"
+                )
+            }
+        }
+    }
+
+
 }
