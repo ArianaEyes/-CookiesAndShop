@@ -25,8 +25,8 @@ interface PostresService {
     suspend fun updatePostre(
         @Body postre: Postres
     ): Response<PostreResponse>
-    @DELETE("postres.php")
+    @DELETE("postres.php/{id_postre}")
     suspend fun deletePostre(
-        @Path("id_postre") id_postre: Int?
+        @Path("id_postre") id_postre: Int
     ): Response<PostreResponse>
 }
