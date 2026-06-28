@@ -67,7 +67,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.request.ImageRequest
-import com.ariana.cookiesandshop.DeliveryActivity
+import com.ariana.cookiesandshop.pages.delivery.DeliveryActivity
 import com.ariana.cookiesandshop.R
 import com.ariana.cookiesandshop.components.BarraIcon
 import com.ariana.cookiesandshop.models.Postres
@@ -97,7 +97,7 @@ class HomeActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val api = Retrofit.Builder()
-            .baseUrl("https://wyper.alwaysdata.net/")
+            .baseUrl("https://arianini.alwaysdata.net/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(PostresService::class.java)

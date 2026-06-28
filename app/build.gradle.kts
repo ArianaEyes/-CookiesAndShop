@@ -64,4 +64,16 @@ dependencies {
 
     //implementation("androidx.datastore:datastore-preferences:1.2.1")
     implementation(libs.androidx.datastore.preferences)
+
+    // Google Maps Compose library
+    val mapsComposeVersion = "4.4.1"
+    implementation("com.google.maps.android:maps-compose:$mapsComposeVersion")
+    // Google Maps Compose utility library
+    implementation("com.google.maps.android:maps-compose-utils:$mapsComposeVersion")
+    // Google Maps Compose widgets library
+    implementation("com.google.maps.android:maps-compose-widgets:$mapsComposeVersion")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+
+    implementation("com.google.android.libraries.places:places:5.2.0")
 }
+

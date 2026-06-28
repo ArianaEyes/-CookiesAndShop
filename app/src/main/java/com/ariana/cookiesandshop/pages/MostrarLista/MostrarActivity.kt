@@ -64,7 +64,7 @@ class MostrarActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val viewModel = ViewModelProvider(this)[DetallesViewModel::class.java]
         val api = Retrofit.Builder()
-            .baseUrl("https://wyper.alwaysdata.net/")
+            .baseUrl("https://arianini.alwaysdata.net/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(PostresService::class.java)

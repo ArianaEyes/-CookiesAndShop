@@ -18,11 +18,7 @@
             android:exported="false"
             android:label="@string/title_activity_error"
             android:theme="@style/Theme.CookiesAndShop" />
-        <activity
-            android:name=".pages.Error.ErrorActivity"
-            android:exported="false"
-            android:label="@string/title_activity_error"
-            android:theme="@style/Theme.CookiesAndShop" />
+
         <activity
             android:name=".pages.MostrarLista.MostrarLista"
             android:exported="false"
@@ -39,7 +35,7 @@
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.CookiesAndShop" />
         <activity
-            android:name=".DeliveryActivity"
+            android:name=".pages.delivery.DeliveryActivity"
             android:exported="false"
             android:label="@string/title_activity_delivery"
             android:theme="@style/Theme.CookiesAndShop" />
@@ -48,6 +44,9 @@
             android:exported="false"
             android:label="@string/title_activity_info_postre"
             android:theme="@style/Theme.CookiesAndShop" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDUxQzUseMy9oT87ojFDCOvvvgdr9vs7jg" />
         <activity
             android:name=".pages.login.LoginActivity"
             android:exported="true"
