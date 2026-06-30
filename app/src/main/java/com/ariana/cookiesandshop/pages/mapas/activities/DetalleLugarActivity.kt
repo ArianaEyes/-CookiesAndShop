@@ -37,6 +37,7 @@ import com.ariana.cookiesandshop.models.LugarDetalle
 import com.ariana.cookiesandshop.pages.mapas.LugarUIState
 import com.ariana.cookiesandshop.pages.mapas.LugarViewModel
 import com.ariana.cookiesandshop.pages.mapas.activities.ui.theme.CookiesAndShopTheme
+import com.ariana.cookiesandshop.ui.theme.azulFondo
 
 class DetalleLugarActivity : ComponentActivity() {
     private lateinit var viewModel: LugarViewModel
@@ -50,8 +51,12 @@ class DetalleLugarActivity : ComponentActivity() {
         setContent {
             CookiesAndShopTheme {
                 val uiState by viewModel.uiState.collectAsState()
-                Column{
-                    Box{
+
+                    Box(
+                        Modifier.padding(0.dp)
+                            .fillMaxSize()
+                            .background(azulFondo.copy(.8f))
+                    ){
                         when (val state = uiState) {
                             is LugarUIState.Success -> {
                                 DetalleLugarScreen(lugar = state.Lugardetalle)
@@ -61,7 +66,7 @@ class DetalleLugarActivity : ComponentActivity() {
                             else -> {}
                         }
                     }
-                }
+
             }
         }
     }

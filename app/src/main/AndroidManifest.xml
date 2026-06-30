@@ -14,6 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CookiesAndShop">
         <activity
+            android:name=".pages.nosesabe.parte2"
+            android:exported="false"
+            android:label="@string/title_activity_parte2"
+            android:theme="@style/Theme.CookiesAndShop" />
+        <activity
+            android:name=".pages.nosesabe.trabajoenclase"
+            android:exported="false"
+            android:label="@string/title_activity_trabajoenclase"
+            android:theme="@style/Theme.CookiesAndShop" />
+        <activity
             android:name=".pages.mapas.activities.DetalleLugarActivity"
             android:exported="false"
             android:label="@string/title_activity_detalle_lugar"

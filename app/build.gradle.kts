@@ -6,8 +6,8 @@ plugins {
 android {
     namespace = "com.ariana.cookiesandshop"
     compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
+        version = release(37) {
+
         }
     }
 

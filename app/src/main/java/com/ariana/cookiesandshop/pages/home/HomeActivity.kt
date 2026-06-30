@@ -96,6 +96,7 @@ class HomeActivity : ComponentActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(PostresService::class.java)
+
         enableEdgeToEdge()
         setContent {
             CookiesAndShopTheme {
@@ -235,7 +236,9 @@ class HomeActivity : ComponentActivity() {
                                         )
                                         Text("Obtén ya tu plato", color = Color.White, fontFamily = PlusJakarta, fontWeight = FontWeight.Normal, fontSize = 14.sp)
                                         Text("Personaliza tus sabores", color = Color.White, fontFamily = PlusJakarta, fontWeight = FontWeight.Normal, fontSize = 14.sp)
+
                                         Button(
+//                                            onClick = {val intent = Intent(context, MostrarLista::class.java)
                                             onClick = {val intent = Intent(context, MostrarLista::class.java)
                                                 startActivity(intent)}, colors = ButtonDefaults.buttonColors(
                                                 containerColor = Color.White
@@ -490,6 +493,7 @@ class HomeActivity : ComponentActivity() {
                                                                     .padding(top = 8.dp),
                                                                 contentPadding = PaddingValues(0.dp)
                                                             ) {
+                                                                Log.d("POSTRE_CLICK", "${postre.id_postre}")
                                                                 Text(
                                                                     "Más información",
                                                                     style = TextStyle(

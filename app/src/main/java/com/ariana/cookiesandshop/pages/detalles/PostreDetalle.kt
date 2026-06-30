@@ -154,7 +154,7 @@ fun PostreDetalle(itemPostre: Postres){
         )
         {
             Text(
-                itemPostre.nom_postre,
+                itemPostre.nom_postre ?: "sin nombre",
                 Modifier.Companion.width(350.dp).padding(bottom = 20.dp),
                 textAlign = TextAlign.Companion.Center,
                 style = TextStyle(
@@ -162,7 +162,7 @@ fun PostreDetalle(itemPostre: Postres){
                 ),
             )
             Text(
-                 itemPostre.descripcion,
+                 itemPostre.descripcion ?: "sin descripcion",
                 Modifier.Companion.width(350.dp),
                 textAlign = TextAlign.Companion.Center,
                 style = TextStyle(
