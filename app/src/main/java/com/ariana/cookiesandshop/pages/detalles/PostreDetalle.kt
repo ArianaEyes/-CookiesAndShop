@@ -340,24 +340,3 @@ fun FilaDato(etiqueta: String, valor: String?) {
     }
 }
 
-//FilaDato("Nombre", itemPostre.nom_postre)
-//        FilaDato("Categoría", itemTipo.nombre)
-//        FilaDato("Receta", itemPostre.receta)
-//        FilaDato("Stock", itemPostre.stock.toString())
-//        Text("Descripcion del tipo de postre: ")
-//        FilaDato("Categoría", itemTipo.descripcion)
-//
-//        Text(text = "Descripción", style = MaterialTheme.typography.titleLarge)
-//        AndroidView(
-//            factory = { context ->
-//                TextView(context).apply {
-//                    textSize = 16f
-//                }
-//            },
-//            update = { textView ->
-//                textView.text = HtmlCompat.fromHtml(
-//                    itemPostre.descripcion,
-//                    HtmlCompat.FROM_HTML_MODE_LEGACY
-//                )
-//            }
-//        )

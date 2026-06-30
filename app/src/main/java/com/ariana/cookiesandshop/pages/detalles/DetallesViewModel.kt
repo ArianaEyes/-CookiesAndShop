@@ -30,6 +30,9 @@ class DetallesViewModel: ViewModel() {
     var descripcion by mutableStateOf("")
     var calorias by mutableStateOf("")
 
+    var latitud by mutableStateOf("")
+    var longitud by mutableStateOf("")
+
     fun fetchPostres() {
         _uiState.value = PostreDetalleUIState.Loading
         viewModelScope.launch {
@@ -72,7 +75,9 @@ class DetallesViewModel: ViewModel() {
                     stock = stock.toInt(),
                     imagen = imagen,
                     descripcion = descripcion,
-                    calorias = calorias.toInt()
+                    calorias = calorias.toInt(),
+                    latitud = latitud.toDouble(),
+                    longitud = longitud.toDouble()
                 )
                 RetrofitClient.postresService.insertPostre(nuevoPostre)
                 fetchPostres()
@@ -101,7 +106,9 @@ class DetallesViewModel: ViewModel() {
                     stock = stock.toIntOrNull() ?: 0,
                     imagen = imagen,
                     descripcion = descripcion,
-                    calorias = calorias.toIntOrNull() ?: 0
+                    calorias = calorias.toIntOrNull() ?: 0,
+                    latitud = latitud.toDoubleOrNull() ?: 0.0,
+                    longitud = longitud.toDoubleOrNull() ?: 0.0
                 )
 
                 val response = RetrofitClient.postresService.updatePostre(

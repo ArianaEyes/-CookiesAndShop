@@ -16,6 +16,9 @@ object RetrofitClient {
     val postresService: PostresService by lazy {
         retrofit.create(PostresService::class.java)
     }
+    val lugarService: LugarService by lazy {
+        retrofit.create(LugarService::class.java)
+    }
 
     val loginService: LoginService by lazy {
         retrofit.create(LoginService::class.java)

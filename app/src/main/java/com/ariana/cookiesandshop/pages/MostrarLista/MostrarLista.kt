@@ -233,16 +233,5 @@ class MostrarLista : ComponentActivity() {
     }
 
 
-    fun seleccionarPostre(id_postre: Int) {
-        val intent = Intent(this, DetallesPostreActivity::class.java)
-        val bundle = Bundle().apply {
-            putInt("id_postre", id_postre)
-        }
-        intent.putExtras(bundle)
-        startActivity(intent)
-        overridePendingTransition(
-            android.R.anim.fade_in,
-            android.R.anim.fade_out
-        )
-    }
+
 }

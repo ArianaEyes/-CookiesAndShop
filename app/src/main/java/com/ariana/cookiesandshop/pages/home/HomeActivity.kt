@@ -31,8 +31,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import coil.compose.AsyncImage
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -61,23 +59,20 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.request.ImageRequest
-import com.ariana.cookiesandshop.pages.delivery.DeliveryActivity
 import com.ariana.cookiesandshop.R
 import com.ariana.cookiesandshop.components.BarraIcon
 import com.ariana.cookiesandshop.models.Postres
 import com.ariana.cookiesandshop.pages.detalles.DetallesPostreActivity
 import com.ariana.cookiesandshop.pages.MostrarLista.MostrarLista
+import com.ariana.cookiesandshop.pages.mapas.activities.EncontrarLocalActivity
 import com.ariana.cookiesandshop.ui.theme.CookiesAndShopTheme
 import com.ariana.cookiesandshop.ui.theme.Fjalla
 import com.ariana.cookiesandshop.ui.theme.Nunito
 import com.ariana.cookiesandshop.ui.theme.PlusJakarta
-import com.ariana.cookiesandshop.ui.theme.Roboto
 import com.ariana.cookiesandshop.ui.theme.azulClaro
 import com.ariana.cookiesandshop.ui.theme.azulFondo
 import com.ariana.cookiesandshop.ui.theme.chocolate
@@ -204,10 +199,10 @@ class HomeActivity : ComponentActivity() {
                                     val context = LocalContext.current
                                     IconButton(
                                         onClick = {
-                                            val intent = Intent(context, DeliveryActivity::class.java)
+                                            val intent = Intent(context, EncontrarLocalActivity::class.java)
                                             context.startActivity(intent)
                                         },
-                                        Modifier.padding(start = 30.dp)
+                                        Modifier.padding(start = 10.dp)
                                             .background(Color.White)
                                     ) {
                                         Icon(

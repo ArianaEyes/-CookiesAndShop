@@ -3,7 +3,7 @@
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#f0d27f"
+        "color": "#ebe3cd"
       }
     ]
   },
@@ -28,25 +28,7 @@
     "elementType": "geometry.stroke",
     "stylers": [
       {
-        "color": "#3e4b34"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.country",
-    "elementType": "geometry.fill",
-    "stylers": [
-      {
-        "color": "#68ca6f"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.country",
-    "elementType": "geometry.stroke",
-    "stylers": [
-      {
-        "color": "#2f432d"
+        "color": "#c9b2a6"
       }
     ]
   },
@@ -64,7 +46,7 @@
     "elementType": "labels.text.fill",
     "stylers": [
       {
-        "color": "#927963"
+        "color": "#ae9e90"
       }
     ]
   },
@@ -73,10 +55,7 @@
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#788b55"
-      },
-      {
-        "weight": 0.5
+        "color": "#dfd2ae"
       }
     ]
   },
@@ -85,7 +64,7 @@
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#78aad9"
+        "color": "#dfd2ae"
       }
     ]
   },
@@ -103,7 +82,7 @@
     "elementType": "geometry.fill",
     "stylers": [
       {
-        "color": "#9d6cf9"
+        "color": "#9b855f"
       }
     ]
   },
@@ -112,7 +91,16 @@
     "elementType": "geometry.fill",
     "stylers": [
       {
-        "color": "#6c7df9"
+        "color": "#46a6b9"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.government",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#cb7272"
       }
     ]
   },
@@ -121,7 +109,7 @@
     "elementType": "geometry.fill",
     "stylers": [
       {
-        "color": "#f99d6c"
+        "color": "#d27441"
       }
     ]
   },
@@ -144,29 +132,11 @@
     ]
   },
   {
-    "featureType": "poi.place_of_worship",
-    "elementType": "geometry.fill",
-    "stylers": [
-      {
-        "color": "#d9789a"
-      }
-    ]
-  },
-  {
     "featureType": "poi.school",
     "elementType": "geometry.fill",
     "stylers": [
       {
-        "color": "#efd36b"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.sports_complex",
-    "elementType": "geometry.fill",
-    "stylers": [
-      {
-        "color": "#68ca7c"
+        "color": "#cb729d"
       }
     ]
   },
@@ -184,7 +154,7 @@
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#ea90af"
+        "color": "#fdfcf8"
       }
     ]
   },
@@ -202,7 +172,7 @@
     "elementType": "geometry.stroke",
     "stylers": [
       {
-        "color": "#e9a463"
+        "color": "#e9bc62"
       }
     ]
   },
@@ -229,7 +199,7 @@
     "elementType": "labels.text.fill",
     "stylers": [
       {
-        "color": "#413c3a"
+        "color": "#806b63"
       }
     ]
   },
@@ -274,19 +244,7 @@
     "elementType": "geometry.fill",
     "stylers": [
       {
-        "color": "#1d5990"
-      }
-    ]
-  },
-  {
-    "featureType": "water",
-    "elementType": "geometry.stroke",
-    "stylers": [
-      {
-        "visibility": "on"
-      },
-      {
-        "weight": 0.5
+        "color": "#b9d3c2"
       }
     ]
   },

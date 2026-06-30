@@ -13,6 +13,8 @@ data class Postres(
     val imagen: String,
     val descripcion: String,
     var calorias: Int,
+    val latitud: Double,
+    val longitud: Double
 )
 data class PostreResponse(
     val message: String,

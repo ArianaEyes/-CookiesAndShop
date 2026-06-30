@@ -10,5 +10,8 @@
     <string name="iniciar_sesion">Iniciar sesión</string>
     <string name="emailString">Correo</string>
     <string name="passwordString">Contraseña</string>
+    <string name="title_activity_encontrar_local">EncontrarLocalActivity</string>
+    <string name="title_activity_mapa_global">MapaGlobalActivity</string>
+    <string name="title_activity_detalle_lugar">DetalleLugarActivity</string>
 
 </resources>
