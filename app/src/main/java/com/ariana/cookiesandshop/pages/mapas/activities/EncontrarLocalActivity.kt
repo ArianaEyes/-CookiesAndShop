@@ -24,7 +24,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -102,28 +104,42 @@ class EncontrarLocalActivity : ComponentActivity() {
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     val context = LocalContext.current
-                                    Button( onClick = {
-                                        val intent = Intent(context, MapaGlobalActivity::class.java)
-                                        context.startActivity(intent)
-                                    }, modifier = Modifier
-                                        .width(140.dp)
-                                        .height(35.dp)
-                                        .padding(top = 15.dp),
+                                    Button(
+                                        onClick = {
+                                            val intent = Intent(context, MapaGlobalActivity::class.java)
+                                            context.startActivity(intent)
+                                        },
+                                        modifier = Modifier
+                                            .width(140.dp)
+                                            .height(60.dp)
+                                            .padding(top = 15.dp),
+                                        shape = RoundedCornerShape(25.dp),
+                                        colors = ButtonDefaults.buttonColors(
+                                            containerColor = Color(0xFFFFFFFF),
+                                            contentColor = Color.White
+                                        ),
+                                        elevation = ButtonDefaults.buttonElevation(
+                                            defaultElevation = 6.dp,
+                                            pressedElevation = 2.dp
+                                        ),
                                         contentPadding = PaddingValues(0.dp)
                                     ) {
+
                                         Text(
-                                            "Lugar",
+                                            text = "📍 Lugar",
                                             style = TextStyle(
-                                                color = Color.Black,
-                                                fontSize = 13.sp)
-                                            , fontFamily = PlusJakarta, fontWeight = FontWeight.Bold
+                                                fontSize = 18.sp,
+                                                fontFamily = PlusJakarta,
+                                                fontWeight = FontWeight.Bold,
+                                                color = azulFondo
+                                            )
                                         )
                                     }
                                 }
                                 LazyColumn(
                                     modifier = Modifier
                                         .fillMaxSize()
-                                        .padding(top=50.dp, start = 16.dp, end = 16.dp)
+                                        .padding(top=65.dp, start = 16.dp, end = 16.dp)
 
                                 ) {
 

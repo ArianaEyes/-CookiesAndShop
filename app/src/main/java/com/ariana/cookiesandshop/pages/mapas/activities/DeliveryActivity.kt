@@ -6,7 +6,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -44,25 +46,28 @@ class DeliveryActivity : ComponentActivity() {
         setContent {
             CookiesAndShopTheme() {
                 val uiState by viewModel.uiState.collectAsState()
-
-                when (val state = uiState) {
-                    is LugarUIState.Loading -> {
-                        CircularProgressIndicator()
-                    }
-                    is LugarUIState.Error -> {
-                        Column(modifier = Modifier,
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(state.message, color = MaterialTheme.colorScheme.error)
-                            Button(onClick = { viewModel.fetchLugarPorPostreId(id_postre) }) {
-                                Text("Reintentar")
+                    Box(modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center){
+                        when (val state = uiState) {
+                            is LugarUIState.Loading -> {
+                                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                            }
+                            is LugarUIState.Error -> {
+                                Column(modifier = Modifier,
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Text(state.message, color = MaterialTheme.colorScheme.error)
+                                    Button(onClick = { viewModel.fetchLugarPorPostreId(id_postre) }) {
+                                        Text("Reintentar")
+                                    }
+                                }
+                            }
+                            is LugarUIState.Success -> {
+                                DibujarMapa(placesClient, state.Lugardetalle )
                             }
                         }
                     }
-                    is LugarUIState.Success -> {
-                        DibujarMapa(placesClient, state.Lugardetalle )
-                    }
-                }
+
 
             }
         }
